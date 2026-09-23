@@ -188,16 +188,11 @@
       transition: width 0.12s ease-out;
     }
 
-    /* Scroll reveal transitions */
+    /* Content is immediately 100% visible - zero blank white screens or scroll delays */
     .reveal-on-scroll {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
-    }
-    .reveal-on-scroll.is-revealed {
-      opacity: 1;
-      transform: translateY(0);
+      opacity: 1 !important;
+      transform: none !important;
+      visibility: visible !important;
     }
 
     /* Slow majestic mandala rotation */
@@ -249,16 +244,16 @@
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-14 sm:h-16 lg:h-20 gap-2">
         
-        <!-- Logo & Royal Monogram (Fluid & Non-Overflowing on Mobile) -->
-        <a href="#" class="flex items-center gap-2 sm:gap-3 group shrink min-w-0">
+        <!-- Logo & Royal Monogram (Fluid & Non-Truncating on Mobile) -->
+        <a href="#" class="flex items-center gap-2 group shrink min-w-0">
           <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full obsidian-gradient flex items-center justify-center text-amber-300 shadow-md border border-amber-400/40 group-hover:scale-105 transition-transform duration-300 shrink-0">
             <span class="font-cinzel text-xs sm:text-base font-bold tracking-tight">HH</span>
           </div>
-          <div class="min-w-0">
-            <span class="block font-cinzel text-xs sm:text-sm md:text-base font-bold tracking-[0.05em] sm:tracking-[0.14em] text-heritage-obsidian group-hover:text-heritage-gold transition truncate">
+          <div class="min-w-0 flex flex-col justify-center">
+            <span class="block font-cinzel text-[11px] sm:text-sm md:text-base font-bold tracking-tight sm:tracking-[0.14em] text-heritage-obsidian group-hover:text-heritage-gold transition whitespace-nowrap leading-none">
               HERITAGE HANDICRAFTS
             </span>
-            <span class="block text-[8px] sm:text-[9px] uppercase tracking-[0.18em] sm:tracking-[0.25em] text-amber-800 font-semibold truncate">
+            <span class="block text-[8px] sm:text-[9px] uppercase tracking-[0.15em] sm:tracking-[0.25em] text-amber-800 font-semibold truncate leading-none mt-0.5">
               Jaipur Atelier
             </span>
           </div>
@@ -285,7 +280,7 @@
         <!-- Right Action: Mobile Showcase & Bag (Fitted & Fully Visible) -->
         <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <!-- Mobile Showcase Trigger (Sleek Compact Pill) -->
-          <button onclick="toggleHeaderShowcase()" class="lg:hidden flex items-center gap-1 text-[10px] sm:text-xs font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-full bg-amber-100/90 border border-amber-300 text-amber-900 hover:bg-amber-200 transition">
+          <button onclick="toggleHeaderShowcase()" class="lg:hidden flex items-center gap-1 text-[10px] sm:text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-amber-100/90 border border-amber-300 text-amber-900 hover:bg-amber-200 transition shrink-0">
             <i data-lucide="layout-grid" class="w-3 h-3 text-amber-800"></i>
             <span>Showcase</span>
             <i data-lucide="chevron-down" class="w-3 h-3 text-amber-800"></i>
