@@ -159,15 +159,58 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
+    /* Scroll progress bar */
+    #scrollProgressBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, #C59B27, #F6E8B9, #C59B27);
+      z-index: 9999;
+      pointer-events: none;
+      transition: width 0.12s ease-out;
+    }
+
+    /* Scroll reveal transitions */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Slow majestic mandala rotation */
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-slow-spin {
+      animation: slowSpin 140s linear infinite;
+    }
+
+    /* Textile grid pattern */
+    .textile-grid-bg {
+      background-image: radial-gradient(rgba(197, 155, 39, 0.12) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-amber-200 selection:text-amber-950 pb-20 md:pb-0 overflow-x-hidden">
 
+  <!-- Scroll Progress Indicator -->
+  <div id="scrollProgressBar"></div>
+
   <!-- 1. TOP ANNOUNCEMENT BAR (Whisper-Quiet Royal Luxury) -->
-  <header class="bg-[#100E0C] text-amber-200/90 text-[10px] sm:text-[11px] py-2.5 px-4 border-b border-amber-500/20 w-full overflow-hidden tracking-[0.18em] uppercase">
+  <header class="bg-[#100E0C] text-amber-200/90 text-[10px] sm:text-[11px] py-2 px-4 border-b border-amber-500/20 w-full overflow-hidden tracking-[0.2em] uppercase font-medium">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 text-center sm:text-left">
       <div class="flex items-center gap-2 truncate max-w-full mx-auto sm:mx-0">
-        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 animate-pulse"></span>
         <span class="truncate">
           Direct from our Jaipur Artisan Atelier • Complimentary 7-Day Express Pan-India Delivery
         </span>
@@ -186,43 +229,53 @@
     </div>
   </header>
 
-  <!-- 2. MAIN NAVIGATION (Regal Palace Atelier) -->
+  <!-- 2. MAIN NAVIGATION (Minimalist Luxury Atelier) -->
   <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-heritage-border w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
         <!-- Logo & Royal Monogram -->
         <a href="#" class="flex items-center gap-3.5 group shrink-0">
-          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full obsidian-gradient flex items-center justify-center text-amber-300 shadow-md border border-amber-400/40 group-hover:scale-105 transition-transform duration-300">
-            <span class="font-cinzel text-lg sm:text-xl font-bold tracking-tight">HH</span>
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full obsidian-gradient flex items-center justify-center text-amber-300 shadow-md border border-amber-400/40 group-hover:scale-105 transition-transform duration-300">
+            <span class="font-cinzel text-base sm:text-lg font-bold tracking-tight">HH</span>
           </div>
           <div>
             <span class="block font-cinzel text-base sm:text-lg font-bold tracking-[0.14em] text-heritage-obsidian group-hover:text-heritage-gold transition">
               HERITAGE HANDICRAFTS
             </span>
             <span class="block text-[9px] uppercase tracking-[0.25em] text-amber-800 font-semibold">
-              Atelier • Jaipur
+              Jaipur Atelier
             </span>
           </div>
         </a>
 
-        <!-- Desktop Menu -->
-        <div class="hidden lg:flex items-center space-x-7 text-xs font-semibold uppercase tracking-[0.15em] text-heritage-charcoal">
-          <a href="#catalogue" class="hover:text-heritage-gold transition py-1">Collection</a>
-          <a href="#catalogue" onclick="filterCategory('carpets')" class="hover:text-heritage-gold transition py-1">4×6 Carpets</a>
-          <a href="#catalogue" onclick="filterCategory('dohars')" class="hover:text-heritage-gold transition py-1">Mulmul Dohars</a>
-          <a href="#catalogue" onclick="filterCategory('cushions')" class="hover:text-heritage-gold transition py-1">Cushions</a>
-          <a href="#instagram-reels" class="hover:text-heritage-gold transition py-1 flex items-center gap-1.5 text-amber-900 font-bold">
+        <!-- Minimal Desktop Menu: Clean, Non-Cluttered Navigation Triggers -->
+        <div class="hidden lg:flex items-center space-x-8 text-xs font-semibold uppercase tracking-[0.16em] text-heritage-charcoal">
+          <!-- The Expandable Showcase Trigger Button -->
+          <button onclick="toggleHeaderShowcase()" id="showcaseTriggerBtn" class="flex items-center gap-2 hover:text-heritage-gold transition py-2 px-3.5 rounded-full hover:bg-amber-50/80 border border-transparent hover:border-amber-200 group">
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-heritage-gold"></i>
+            <span class="text-heritage-obsidian group-hover:text-heritage-gold">Showcase</span>
+            <i data-lucide="chevron-down" id="showcaseChevron" class="w-3.5 h-3.5 text-heritage-gold transition-transform duration-300"></i>
+          </button>
+          
+          <a href="#instagram-reels" class="hover:text-heritage-gold transition py-2 flex items-center gap-1.5 text-amber-900 font-bold">
             <span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>
             <span>Live Reels</span>
           </a>
-          <a href="#calculator" class="hover:text-heritage-gold transition py-1">Room Sizer</a>
-          <a href="#gifting" class="hover:text-heritage-gold transition py-1">Bulk Gifting</a>
-          <a href="#studio" class="hover:text-heritage-gold transition py-1">Studio</a>
+          
+          <a href="#calculator" class="hover:text-heritage-gold transition py-2">Room Sizer</a>
+          <a href="#studio" class="hover:text-heritage-gold transition py-2">Studio</a>
         </div>
 
         <!-- Right Action: Concierge & Bag -->
         <div class="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
+          <!-- Mobile Showcase Trigger -->
+          <button onclick="toggleHeaderShowcase()" class="lg:hidden flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-amber-100/70 border border-amber-300 text-amber-900">
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-amber-800"></i>
+            <span>Showcase</span>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-amber-800"></i>
+          </button>
+
           <a href="https://wa.me/918003255584?text=Namaste%20Nidhi%20ji!%20I%20am%20exploring%20Heritage%20Handicrafts%20and%20would%20like%20to%20order." target="_blank" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-300 bg-amber-50/70 hover:bg-amber-100 text-heritage-obsidian text-xs font-bold tracking-wide transition shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-700"></i>
             <span>WhatsApp Concierge</span>
@@ -238,139 +291,247 @@
 
       </div>
     </div>
-  </nav>
 
-  <!-- 3. ULTRA-LUXURY HERO STAGE (Grand Royal Palace Editorial Showcase) -->
-  <section class="relative overflow-hidden bg-heritage-obsidian text-heritage-cream py-16 sm:py-24 lg:py-28 w-full min-h-[85vh] flex items-center">
-    
-    <!-- Atmospheric Visual Background with Slow Ambient Ken Burns -->
-    <div class="absolute inset-0 z-0 overflow-hidden">
-      <img src="assets/images/hero-jaipur.jpg" alt="Jaipur Heritage Handicrafts Studio" class="w-full h-full object-cover object-center scale-105 animate-reel-zoom opacity-30 mix-blend-luminosity filter brightness-75 contrast-125" />
-      <div class="absolute inset-0 bg-gradient-to-r from-[#12100E] via-[#12100E]/90 to-[#12100E]/70 z-10"></div>
-      <div class="absolute inset-0 bg-radial-gradient from-amber-500/10 via-transparent to-black/60 pointer-events-none z-10"></div>
-    </div>
-
-    <!-- Soft Golden Ambient Glow Orb -->
-    <div class="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-amber-500/15 blur-3xl pointer-events-none z-10"></div>
-
-    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+    <!-- EXPANDABLE SHOWCASE MEGA-DRAWER (Expands smoothly on click of header) -->
+    <div id="headerShowcasePanel" class="max-h-0 opacity-0 pointer-events-none overflow-hidden transition-all duration-500 ease-in-out bg-[#12100E] border-b border-amber-500/30 text-heritage-cream shadow-2xl relative z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         
-        <!-- Left Column: Editorial Splendor & Brand Narrative -->
-        <div class="lg:col-span-7 text-center lg:text-left">
+        <!-- Header inside panel -->
+        <div class="flex items-center justify-between pb-5 mb-8 border-b border-amber-500/20">
+          <div>
+            <div class="flex items-center gap-2 text-amber-400 text-[10px] font-semibold tracking-[0.25em] uppercase">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-heritage-gold"></i>
+              <span>The Jaipur Atelier Showcase</span>
+            </div>
+            <h3 class="font-cinzel text-xl sm:text-2xl font-normal text-white mt-1">
+              Curated Heirlooms by Master Karigars
+            </h3>
+          </div>
+          <button onclick="toggleHeaderShowcase(false)" class="p-2 sm:px-3 sm:py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-amber-200 hover:text-white border border-amber-500/20 transition flex items-center gap-1.5 text-xs">
+            <span class="hidden sm:inline">Close Showcase</span>
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- The 4 Curated Craft Pillars -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           
-          <!-- Atelier Crest -->
-          <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-300 text-[10px] sm:text-xs font-medium tracking-[0.25em] uppercase mb-6 backdrop-blur-md">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-heritage-gold"></i>
-            <span>The Royal Atelier • Jaipur</span>
+          <!-- Pillar 1: Carpets -->
+          <div onclick="selectCategoryFromShowcase('carpets')" class="group cursor-pointer rounded-2xl p-5 regal-card border border-amber-500/25 hover:border-amber-400/70 transition-all duration-300 hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-heritage-gold border border-amber-400/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <i data-lucide="grid" class="w-6 h-6"></i>
+            </div>
+            <div class="text-[10px] tracking-[0.2em] uppercase text-amber-400 font-semibold mb-1">Handwoven Dhurries</div>
+            <h4 class="font-cinzel text-base font-bold text-white mb-2 group-hover:text-amber-300 transition">4×6 Flatweave Carpets</h4>
+            <p class="text-xs text-amber-100/70 font-light leading-relaxed mb-4">
+              Heavy-combed pure cotton flatweaves with hand-tied fringe tassels. Dual reversible weave for living & bedroom spaces.
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/10 text-xs">
+              <span class="text-amber-300 font-bold font-cinzel">From ₹1,499</span>
+              <span class="text-amber-200 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
+                <span>Explore (3)</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
           </div>
 
-          <!-- Hero Headline (Timeless Luxury) -->
-          <h1 class="font-cinzel text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-normal leading-[1.12] text-white mb-6 tracking-tight">
-            The Poetry of Jaipur. <br />
-            <span class="font-display italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-300 to-yellow-100">
-              Woven for Pure Luxury.
-            </span>
-          </h1>
-
-          <!-- Evocative Narrative (Zero Clutter) -->
-          <p class="font-sans text-sm sm:text-base lg:text-lg text-amber-100/80 font-light leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 tracking-wide">
-            Authentic handblock-printed mulmul dohars, handwoven cotton dhurrie rugs, and textured heirloom cushions — handcrafted one piece at a time by master karigars of Rajasthan.
-          </p>
-
-          <!-- Refined Luxury Actions -->
-          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10">
-            <a href="#catalogue" class="px-8 py-3.5 rounded-full gold-gradient text-heritage-obsidian font-bold text-xs sm:text-sm tracking-[0.12em] uppercase shadow-xl hover:shadow-amber-500/30 hover:brightness-105 transition-all duration-300 flex items-center gap-2.5">
-              <span>Explore The Atelier</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </a>
-
-            <a href="https://wa.me/918003255584?text=Namaste%20Nidhi%20ji!%20I%20am%20exploring%20Heritage%20Handicrafts%20and%20would%20like%20to%20inquire%20about%20your%20collection." target="_blank" class="px-7 py-3.5 rounded-full luxury-glass text-white hover:text-amber-200 font-semibold text-xs sm:text-sm tracking-[0.08em] uppercase transition flex items-center gap-2.5 border border-amber-400/30 shadow-lg">
-              <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i>
-              <span>WhatsApp Concierge</span>
-            </a>
-
-            <a href="#instagram-reels" class="px-5 py-3.5 rounded-full bg-white/5 hover:bg-white/10 text-amber-200 hover:text-white font-medium text-xs sm:text-sm tracking-wide border border-white/15 backdrop-blur-sm transition flex items-center gap-2">
-              <i data-lucide="play" class="w-3.5 h-3.5 text-amber-300 fill-current"></i>
-              <span>Watch Reels</span>
-            </a>
+          <!-- Pillar 2: Dohars -->
+          <div onclick="selectCategoryFromShowcase('dohars')" class="group cursor-pointer rounded-2xl p-5 regal-card border border-amber-500/25 hover:border-amber-400/70 transition-all duration-300 hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-heritage-gold border border-amber-400/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <i data-lucide="feather" class="w-6 h-6"></i>
+            </div>
+            <div class="text-[10px] tracking-[0.2em] uppercase text-amber-400 font-semibold mb-1">Cloud Voile Quilts</div>
+            <h4 class="font-cinzel text-base font-bold text-white mb-2 group-hover:text-amber-300 transition">Mulmul Cotton Dohars</h4>
+            <p class="text-xs text-amber-100/70 font-light leading-relaxed mb-4">
+              Triple-layer breathable cotton with Sanganeri handblock motifs. Fluff-soft, ultra-lightweight luxury for AC comfort.
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/10 text-xs">
+              <span class="text-amber-300 font-bold font-cinzel">From ₹1,299</span>
+              <span class="text-amber-200 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
+                <span>Explore (3)</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </span>
+            </div>
           </div>
 
-          <!-- Micro Trust Elements (Clean Minimalist Hairline Row) -->
-          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-[11px] sm:text-xs text-amber-200/90 font-medium tracking-wide border-t border-white/10 pt-6">
-            <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>7-Day Express Pan-India Delivery</span>
+          <!-- Pillar 3: Cushions -->
+          <div onclick="selectCategoryFromShowcase('cushions')" class="group cursor-pointer rounded-2xl p-5 regal-card border border-amber-500/25 hover:border-amber-400/70 transition-all duration-300 hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-heritage-gold border border-amber-400/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-              <span>7-Day Hassle-Free Replacement</span>
+            <div class="text-[10px] tracking-[0.2em] uppercase text-amber-400 font-semibold mb-1">Artisan Embroidery</div>
+            <h4 class="font-cinzel text-base font-bold text-white mb-2 group-hover:text-amber-300 transition">Textured Cushion Covers</h4>
+            <p class="text-xs text-amber-100/70 font-light leading-relaxed mb-4">
+              Tufted thread-work, geometric kilim embroidery, and lumbar sets designed to elevate sofas and reading chaises.
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/10 text-xs">
+              <span class="text-amber-300 font-bold font-cinzel">From ₹699</span>
+              <span class="text-amber-200 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
+                <span>Explore (4)</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </span>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-              <span>Cash on Delivery (COD)</span>
+          </div>
+
+          <!-- Pillar 4: Hampers & Gifting -->
+          <div onclick="selectCategoryFromShowcase('gifting')" class="group cursor-pointer rounded-2xl p-5 regal-card border border-amber-500/25 hover:border-amber-400/70 transition-all duration-300 hover:-translate-y-1">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-heritage-gold border border-amber-400/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <i data-lucide="gift" class="w-6 h-6"></i>
+            </div>
+            <div class="text-[10px] tracking-[0.2em] uppercase text-amber-400 font-semibold mb-1">Festive & Wedding</div>
+            <h4 class="font-cinzel text-base font-bold text-white mb-2 group-hover:text-amber-300 transition">Royal Bespoke Gifting</h4>
+            <p class="text-xs text-amber-100/70 font-light leading-relaxed mb-4">
+              Custom handcrafted keepsake gift boxes with gold foil sealing and silk ribbons. Special bulk pricing for celebrations.
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-white/10 text-xs">
+              <span class="text-amber-300 font-bold font-cinzel">Custom Kits</span>
+              <span class="text-amber-200 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
+                <span>Inquire</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </span>
             </div>
           </div>
 
         </div>
 
-        <!-- Right Column: Signature Masterpiece Spotlight (Visual WOW Factor) -->
-        <div class="lg:col-span-5 flex justify-center">
-          <div class="relative w-full max-w-sm sm:max-w-md regal-card rounded-3xl p-5 sm:p-6 shadow-2xl border border-amber-400/30 transform hover:-translate-y-1 transition-transform duration-500">
-            
-            <!-- Corner Filigree Accent -->
-            <div class="absolute -top-3 -right-3 bg-heritage-gold text-heritage-obsidian px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg border border-amber-200">
-              Signature Piece
-            </div>
-
-            <!-- Image with interactive trigger -->
-            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4 border border-amber-500/20 group cursor-pointer" onclick="openProductModal('carpet-indigo-4x6')">
-              <img src="assets/images/carpet-indigo-4x6.jpg" alt="Indigo Royal Carpet" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              
-              <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
-                <span class="text-xs font-semibold tracking-wider text-amber-200">4×6 ft Flatweave Dhurrie</span>
-                <span class="text-[10px] bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20 text-white flex items-center gap-1">
-                  <i data-lucide="camera" class="w-3 h-3 text-amber-300"></i> 4 Photos
-                </span>
-              </div>
-            </div>
-
-            <!-- Spotlight Info -->
-            <div class="space-y-3">
-              <div class="flex items-baseline justify-between">
-                <div>
-                  <h3 class="font-cinzel text-base sm:text-lg font-bold text-white">Indigo Royal Floral Dhurrie</h3>
-                  <p class="text-[11px] text-amber-200/80">Pure Combed Cotton • Hand-Tied Fringe Tassels</p>
-                </div>
-                <div class="text-right">
-                  <span class="font-cinzel text-lg sm:text-xl font-bold text-amber-300">₹1,499</span>
-                  <span class="block text-[10px] text-gray-400 line-through">₹2,499</span>
-                </div>
-              </div>
-
-              <!-- Action to inspect 4 photos -->
-              <div class="grid grid-cols-2 gap-2 pt-1">
-                <button onclick="openProductModal('carpet-indigo-4x6')" class="w-full py-2.5 rounded-xl border border-amber-400/40 text-amber-200 hover:text-white hover:bg-white/10 text-xs font-bold tracking-wide transition flex items-center justify-center gap-1.5">
-                  <i data-lucide="eye" class="w-3.5 h-3.5 text-amber-300"></i>
-                  <span>Inspect Photos</span>
-                </button>
-                <a href="https://wa.me/918003255584?text=Namaste%20Nidhi%20ji!%20I%20want%20to%20order%20the%20Indigo%20Royal%20Floral%20Carpet%20(Rs.1499)%20featured%20on%20your%20website%20hero." target="_blank" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold tracking-wide transition flex items-center justify-center gap-1.5 shadow">
-                  <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-                  <span>Order Now</span>
-                </a>
-              </div>
-            </div>
-
+        <!-- Bottom Row Quick Jumps -->
+        <div class="mt-8 pt-6 border-t border-amber-500/20 flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div class="flex flex-wrap items-center gap-3 sm:gap-6 text-amber-200/90">
+            <button onclick="selectCategoryFromShowcase('all')" class="hover:text-white font-bold underline underline-offset-4 decoration-amber-400 transition">
+              View All 10 Masterpieces
+            </button>
+            <a href="#calculator" onclick="toggleHeaderShowcase(false)" class="hover:text-white flex items-center gap-1 transition">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Interactive Room Sizer</span>
+            </a>
+            <a href="#instagram-reels" onclick="toggleHeaderShowcase(false)" class="hover:text-white flex items-center gap-1 transition">
+              <i data-lucide="play-circle" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Artisan Video Reels</span>
+            </a>
           </div>
+          <a href="https://wa.me/918003255584?text=Namaste%20Nidhi%20ji!%20I%20am%20exploring%20the%20showcase%20and%20need%20assistance." target="_blank" class="px-4 py-2 rounded-full gold-gradient text-heritage-obsidian font-bold text-xs flex items-center gap-1.5 shadow hover:brightness-105 transition">
+            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+            <span>Consult Jaipur Artisan Directly</span>
+          </a>
         </div>
 
       </div>
     </div>
+  </nav>
+
+  <!-- Showcase Backdrop Overlay -->
+  <div id="showcaseBackdrop" onclick="toggleHeaderShowcase(false)" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 hidden opacity-0 transition-opacity duration-300"></div>
+
+  <!-- 3. ULTRA-LUXURY POETIC HERO STAGE (Zero Product Images • Majestic Living Background) -->
+  <section class="relative overflow-hidden bg-[#0E0C0A] text-heritage-cream py-20 sm:py-28 lg:py-36 w-full min-h-[92vh] flex items-center justify-center">
+    
+    <!-- Dynamic Gold Silk Particle Canvas (Interactive Living Background) -->
+    <canvas id="heroLoomCanvas" class="absolute inset-0 z-10 w-full h-full pointer-events-none opacity-80"></canvas>
+
+    <!-- Subtle Textile Weave Grid Texture -->
+    <div class="absolute inset-0 z-0 textile-grid-bg opacity-30 pointer-events-none"></div>
+
+    <!-- Breathing Royal Rajasthani Mandala / Watermark SVG (Slow Majestic Rotation) -->
+    <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      <svg class="w-[650px] h-[650px] sm:w-[850px] sm:h-[850px] text-amber-500/5 animate-slow-spin select-none" viewBox="0 0 500 500" fill="currentColor">
+        <circle cx="250" cy="250" r="230" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 6"/>
+        <circle cx="250" cy="250" r="190" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="250" cy="250" r="140" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="250" cy="250" r="80" fill="none" stroke="currentColor" stroke-width="2"/>
+        <!-- 12 Royal Jharokha Petals -->
+        <g transform="translate(250, 250)">
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(30)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(60)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(90)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(120)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(150)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(180)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(210)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(240)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(270)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(300)" />
+          <path d="M0 -220 C40 -160, 40 -100, 0 -60 C-40 -100, -40 -160, 0 -220" transform="rotate(330)" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- Soft Golden Center Glow Spotlight -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] rounded-full bg-amber-500/10 blur-[130px] pointer-events-none z-0"></div>
+
+    <!-- Atmospheric Vignette -->
+    <div class="absolute inset-0 bg-radial-gradient from-transparent via-[#0E0C0A]/40 to-[#0E0C0A] pointer-events-none z-10"></div>
+
+    <div class="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+      
+      <!-- Atelier Crest -->
+      <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-300 text-[10px] sm:text-xs font-semibold tracking-[0.28em] uppercase mb-8 backdrop-blur-md shadow-lg">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-heritage-gold"></i>
+        <span>Jaipur Artisan Atelier • Royal Heirlooms</span>
+      </div>
+
+      <!-- Grand Editorial Headline -->
+      <h1 class="font-cinzel text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.08] text-white mb-6 tracking-tight">
+        The Poetry of Jaipur. <br />
+        <span class="font-display italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-300 to-yellow-100">
+          Woven for Royalty.
+        </span>
+      </h1>
+
+      <!-- Evocative Narrative -->
+      <p class="font-sans text-sm sm:text-base md:text-lg lg:text-xl text-amber-100/80 font-light leading-relaxed mb-10 max-w-2xl mx-auto tracking-wide">
+        Where centuries of Rajasthani handblock carving, pit-loom weaving, and combed Jaipur cotton transcend into living heirlooms. Crafted without intermediaries, direct from our master artisans to your home.
+      </p>
+
+      <!-- Refined Luxury Actions -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-14">
+        <button onclick="toggleHeaderShowcase(true)" class="px-8 py-4 rounded-full gold-gradient text-heritage-obsidian font-bold text-xs sm:text-sm tracking-[0.14em] uppercase shadow-2xl hover:shadow-amber-500/40 hover:scale-105 transition-all duration-300 flex items-center gap-3">
+          <span>Explore Collections Showcase</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+
+        <a href="#catalogue" class="px-7 py-4 rounded-full luxury-glass text-white hover:text-amber-200 font-semibold text-xs sm:text-sm tracking-[0.1em] uppercase transition flex items-center gap-2.5 border border-amber-400/35 shadow-xl hover:bg-white/10">
+          <span>Browse All Heirlooms</span>
+          <i data-lucide="arrow-down" class="w-4 h-4 text-amber-300"></i>
+        </a>
+
+        <a href="https://wa.me/918003255584?text=Namaste%20Nidhi%20ji!%20I%20am%20exploring%20Heritage%20Handicrafts%20and%20would%20like%20to%20inquire%20about%20your%20collection." target="_blank" class="px-6 py-4 rounded-full bg-white/5 hover:bg-white/10 text-amber-200 hover:text-white font-medium text-xs sm:text-sm tracking-wide border border-white/15 backdrop-blur-sm transition flex items-center gap-2">
+          <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i>
+          <span>WhatsApp Atelier</span>
+        </a>
+      </div>
+
+      <!-- Micro Trust Elements (Clean Regal Grid) -->
+      <div class="w-full max-w-3xl border-t border-amber-500/20 pt-8 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+        <div class="p-2">
+          <div class="font-cinzel text-amber-300 text-lg sm:text-xl font-bold">100%</div>
+          <div class="text-[10px] sm:text-xs text-amber-100/75 font-medium uppercase tracking-wider mt-0.5">Combed Jaipur Cotton</div>
+        </div>
+        <div class="p-2 border-l border-white/10">
+          <div class="font-cinzel text-amber-300 text-lg sm:text-xl font-bold">Pit-Loom</div>
+          <div class="text-[10px] sm:text-xs text-amber-100/75 font-medium uppercase tracking-wider mt-0.5">Reversible Flatweaves</div>
+        </div>
+        <div class="p-2 border-t md:border-t-0 md:border-l border-white/10">
+          <div class="font-cinzel text-amber-300 text-lg sm:text-xl font-bold">7 Days</div>
+          <div class="text-[10px] sm:text-xs text-amber-100/75 font-medium uppercase tracking-wider mt-0.5">Pan-India Express</div>
+        </div>
+        <div class="p-2 border-t md:border-t-0 md:border-l border-white/10">
+          <div class="font-cinzel text-amber-300 text-lg sm:text-xl font-bold">Zero Markup</div>
+          <div class="text-[10px] sm:text-xs text-amber-100/75 font-medium uppercase tracking-wider mt-0.5">Direct Karigar Pricing</div>
+        </div>
+      </div>
+
+      <!-- Delicate Floating Scroll Indicator -->
+      <div class="mt-12 flex flex-col items-center gap-2 text-amber-300/80 animate-bounce cursor-pointer group" onclick="document.getElementById('catalogue').scrollIntoView({behavior: 'smooth'})">
+        <span class="text-[9px] sm:text-[10px] uppercase tracking-[0.28em] font-medium group-hover:text-amber-200 transition">Scroll to Discover The Crafts</span>
+        <i data-lucide="chevron-down" class="w-4 h-4 text-heritage-gold"></i>
+      </div>
+
+    </div>
   </section>
 
   <!-- 4. ULTRA-LUXURY HERITAGE PILLARS (Clean Minimalist Alabaster Bar) -->
-  <section class="bg-[#FAF8F5] border-y border-heritage-border py-8 px-4 w-full">
+  <section class="bg-[#FAF8F5] border-y border-heritage-border py-8 px-4 w-full reveal-on-scroll">
     <div class="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
       
       <div class="p-3 border-r border-heritage-border last:border-none flex flex-col items-center">
@@ -409,7 +570,7 @@
   </section>
 
   <!-- 5. INTERACTIVE LIVE INSTAGRAM REEL VIDEO PLAYER (Videos ACTUALLY PLAY!) -->
-  <section id="instagram-reels" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+  <section id="instagram-reels" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full reveal-on-scroll">
     
     <!-- Section Heading -->
     <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
@@ -623,7 +784,7 @@
   </section>
 
   <!-- 6. MAIN CATALOGUE (ALL 12 REAL PRODUCTS) -->
-  <section id="catalogue" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full border-t border-heritage-border">
+  <section id="catalogue" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full border-t border-heritage-border reveal-on-scroll">
     
     <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
       <span class="text-xs font-bold uppercase tracking-widest text-heritage-gold">Curated Collection</span>
@@ -661,7 +822,7 @@
   </section>
 
   <!-- 7. INTERACTIVE ROOM & SIZE CALCULATOR -->
-  <section id="calculator" class="bg-heritage-sand/60 border-y border-heritage-border py-14 sm:py-20 px-4 sm:px-6 lg:px-8 w-full">
+  <section id="calculator" class="bg-heritage-sand/60 border-y border-heritage-border py-14 sm:py-20 px-4 sm:px-6 lg:px-8 w-full reveal-on-scroll">
     <div class="max-w-5xl mx-auto">
       
       <div class="text-center max-w-xl mx-auto mb-8 sm:mb-10">
@@ -771,7 +932,7 @@
   </section>
 
   <!-- 8. BULK & BESPOKE WEDDING GIFTING SECTION -->
-  <section id="gifting" class="obsidian-gradient text-heritage-cream py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden w-full">
+  <section id="gifting" class="obsidian-gradient text-heritage-cream py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden w-full reveal-on-scroll">
     <div class="max-w-7xl mx-auto">
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -839,7 +1000,7 @@
   </section>
 
   <!-- 9. STUDIO VISIT & GOOGLE MAPS SECTION (VAISHALI NAGAR, JAIPUR) -->
-  <section id="studio" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+  <section id="studio" class="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full reveal-on-scroll">
     <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-heritage-border">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
@@ -913,7 +1074,7 @@
   </section>
 
   <!-- 10. REVIEWS & TESTIMONIALS -->
-  <section class="bg-heritage-sand/40 border-t border-heritage-border py-14 sm:py-20 px-4 sm:px-6 lg:px-8 w-full">
+  <section class="bg-heritage-sand/40 border-t border-heritage-border py-14 sm:py-20 px-4 sm:px-6 lg:px-8 w-full reveal-on-scroll">
     <div class="max-w-7xl mx-auto">
       <div class="text-center max-w-xl mx-auto mb-8 sm:mb-10">
         <span class="text-xs font-bold uppercase tracking-widest text-heritage-gold">Verified Homeowner Love</span>
@@ -2286,12 +2447,198 @@
       if (e.key === 'Escape') {
         closeProductModal();
         closeReelModal();
+        toggleHeaderShowcase(false);
       } else if (e.key === 'ArrowLeft') {
         prevProductPhoto();
       } else if (e.key === 'ArrowRight') {
         nextProductPhoto();
       }
     });
+
+    // -------------------------------------------------------------
+    // EXPANDABLE SHOWCASE PANEL CONTROLS
+    // -------------------------------------------------------------
+    let isShowcaseOpen = false;
+
+    function toggleHeaderShowcase(forceState) {
+      const panel = document.getElementById('headerShowcasePanel');
+      const chevron = document.getElementById('showcaseChevron');
+      const backdrop = document.getElementById('showcaseBackdrop');
+      
+      if (!panel) return;
+      
+      if (typeof forceState === 'boolean') {
+        isShowcaseOpen = forceState;
+      } else {
+        isShowcaseOpen = !isShowcaseOpen;
+      }
+
+      if (isShowcaseOpen) {
+        panel.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none');
+        panel.classList.add('max-h-[92vh]', 'opacity-100', 'pointer-events-auto', 'overflow-y-auto');
+        if (chevron) chevron.style.transform = 'rotate(180deg)';
+        if (backdrop) {
+          backdrop.classList.remove('hidden');
+          requestAnimationFrame(() => {
+            backdrop.classList.remove('opacity-0');
+          });
+        }
+      } else {
+        panel.classList.remove('max-h-[92vh]', 'opacity-100', 'pointer-events-auto', 'overflow-y-auto');
+        panel.classList.add('max-h-0', 'opacity-0', 'pointer-events-none');
+        if (chevron) chevron.style.transform = 'rotate(0deg)';
+        if (backdrop) {
+          backdrop.classList.add('opacity-0');
+          setTimeout(() => {
+            backdrop.classList.add('hidden');
+          }, 300);
+        }
+      }
+    }
+
+    function selectCategoryFromShowcase(category) {
+      toggleHeaderShowcase(false);
+      
+      if (category === 'gifting') {
+        const giftSection = document.getElementById('gifting');
+        if (giftSection) {
+          giftSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
+      }
+
+      // Filter and scroll to catalogue
+      filterCategory(category);
+      const catSection = document.getElementById('catalogue');
+      if (catSection) {
+        catSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // -------------------------------------------------------------
+    // SCROLL PROGRESS BAR & SMOOTH SCROLL REVEALS
+    // -------------------------------------------------------------
+    function handleScrollAnimations() {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      const progressBar = document.getElementById('scrollProgressBar');
+      if (progressBar) {
+        progressBar.style.width = scrolled + '%';
+      }
+    }
+
+    window.addEventListener('scroll', handleScrollAnimations, { passive: true });
+
+    function setupScrollObserver() {
+      const revealElements = document.querySelectorAll('.reveal-on-scroll');
+      if (!('IntersectionObserver' in window)) {
+        revealElements.forEach(el => el.classList.add('is-revealed'));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(el => observer.observe(el));
+    }
+
+    // -------------------------------------------------------------
+    // ROYAL HANDICRAFT GOLDEN SILK & STARDUST CANVAS
+    // -------------------------------------------------------------
+    function initHeroLoomCanvas() {
+      const canvas = document.getElementById('heroLoomCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      let width = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
+      let height = canvas.height = canvas.parentElement.offsetHeight || window.innerHeight;
+
+      let isVisible = true;
+      let animationFrameId = null;
+
+      // Observe visibility to suspend RAF when scrolled away
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver(([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible && !animationFrameId) {
+            loop();
+          }
+        }, { threshold: 0.05 });
+        obs.observe(canvas);
+      }
+
+      window.addEventListener('resize', () => {
+        if (!canvas.parentElement) return;
+        width = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
+        height = canvas.height = canvas.parentElement.offsetHeight || window.innerHeight;
+      });
+
+      // Craft particles representing golden zari threads & stardust
+      const particleCount = 38;
+      const particles = [];
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.8 + 0.6,
+          speedY: -(Math.random() * 0.45 + 0.15),
+          speedX: (Math.random() - 0.5) * 0.3,
+          alpha: Math.random() * 0.6 + 0.2,
+          pulseSpeed: Math.random() * 0.02 + 0.01,
+          angle: Math.random() * Math.PI * 2
+        });
+      }
+
+      function loop() {
+        if (!isVisible) {
+          animationFrameId = null;
+          return;
+        }
+
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.angle += p.pulseSpeed;
+          const currentAlpha = p.alpha + Math.sin(p.angle) * 0.2;
+
+          // Wrap around top/sides
+          if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+
+          // Golden glow circle
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(232, 202, 101, ${Math.max(0.1, currentAlpha)})`;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = 'rgba(197, 155, 39, 0.7)';
+          ctx.fill();
+        }
+
+        animationFrameId = requestAnimationFrame(loop);
+      }
+
+      loop();
+    }
 
     // LIVE ORDER TOAST SIMULATOR (JAIPURCRAFT STYLE SOCIAL PROOF)
     const toastOrders = [
@@ -2331,6 +2678,8 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderProducts(productsData);
       lucide.createIcons();
+      setupScrollObserver();
+      initHeroLoomCanvas();
     });
   </script>
 </body>
