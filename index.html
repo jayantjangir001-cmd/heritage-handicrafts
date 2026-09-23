@@ -984,7 +984,158 @@
     </a>
   </div>
 
-  <!-- 14. FULLSCREEN INSTAGRAM REEL VIDEO PLAYER MODAL -->
+  <!-- 14. LUXURY PRODUCT DETAIL & MULTI-PHOTO SHOWCASE MODAL -->
+  <div id="productDetailModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 opacity-0 pointer-events-none transition-opacity duration-300" onclick="if(event.target === this) closeProductModal()">
+    <div class="relative w-full max-w-5xl max-h-[94vh] bg-heritage-cream rounded-3xl overflow-hidden shadow-2xl border border-amber-500/30 flex flex-col md:flex-row">
+      
+      <!-- Close button on top-right of modal -->
+      <button onclick="closeProductModal()" class="absolute top-3 right-3 z-30 w-9 h-9 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center transition shadow-lg">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Left Column: Multi-Angle Photo Gallery Showcase -->
+      <div class="w-full md:w-7/12 p-4 sm:p-6 bg-white border-b md:border-b-0 md:border-r border-heritage-border flex flex-col justify-between overflow-y-auto max-h-[46vh] md:max-h-[94vh]">
+        <div>
+          <!-- Main Display Image with Angle Badge & Navigation Chevrons -->
+          <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-heritage-sand border border-heritage-border group">
+            <img id="pModalMainImg" src="assets/images/carpet-indigo-4x6.jpg" alt="Product View" class="w-full h-full object-cover transition-all duration-300" />
+            
+            <!-- Angle Shot Badge -->
+            <div class="absolute top-3 left-3 bg-heritage-obsidian/90 text-amber-300 text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm border border-amber-400/20 shadow flex items-center gap-1.5">
+              <i data-lucide="camera" class="w-3.5 h-3.5 text-amber-300"></i>
+              <span id="pModalAngleBadge">Shot 1 of 4: Full Overview</span>
+            </div>
+
+            <!-- 7-Day Delivery Pill -->
+            <div class="absolute top-3 right-12 md:right-3 bg-emerald-800/90 text-white text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm flex items-center gap-1 shadow">
+              <i data-lucide="truck" class="w-3 h-3 text-emerald-300"></i>
+              <span>7-Day Delivery</span>
+            </div>
+
+            <!-- Left / Right Navigation Chevrons -->
+            <button onclick="prevProductPhoto()" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition shadow-md">
+              <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </button>
+            <button onclick="nextProductPhoto()" class="absolute right-2.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition shadow-md">
+              <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </button>
+          </div>
+
+          <!-- Thumbnails Row -->
+          <div class="mt-3">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-heritage-obsidian mb-1.5 flex items-center justify-between">
+              <span>Select Photo Angle to Inspect:</span>
+              <span id="pModalThumbCounter" class="text-amber-800 font-semibold">1 of 4</span>
+            </div>
+            <div id="pModalThumbs" class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+              <!-- Dynamically populated thumbnails -->
+            </div>
+          </div>
+
+          <!-- Dynamic Photo Angle Explanation Box -->
+          <div class="mt-3 p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 text-xs">
+            <div class="flex items-center gap-1.5 font-bold text-amber-950 mb-1">
+              <i data-lucide="info" class="w-4 h-4 text-heritage-gold shrink-0"></i>
+              <span id="pModalPhotoStoryTitle">What This Photo Angle Shows:</span>
+            </div>
+            <p id="pModalPhotoStoryDesc" class="text-amber-900 leading-relaxed text-[11px] sm:text-xs">
+              Detailed view of the handcrafted textile.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-heritage-border text-[11px] text-gray-500 flex items-center justify-between">
+          <span>✨ 100% Genuine Artisan Handcraft</span>
+          <span class="text-emerald-700 font-bold">✓ Zero Dye Bleed Guarantee</span>
+        </div>
+      </div>
+
+      <!-- Right Column: Product Intelligence, Specifications & Actions -->
+      <div class="w-full md:w-5/12 p-5 sm:p-7 flex flex-col justify-between overflow-y-auto max-h-[50vh] md:max-h-[94vh] bg-heritage-cream">
+        <div>
+          <!-- Header Origin Badge -->
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-[11px] font-bold uppercase tracking-wider mb-2 border border-amber-300/60">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-heritage-gold"></i>
+            <span>Jaipur Studio Master Piece</span>
+          </div>
+
+          <!-- Title -->
+          <h2 id="pModalTitle" class="font-cinzel text-lg sm:text-xl md:text-2xl font-bold text-heritage-obsidian mb-1 leading-snug">
+            Product Title
+          </h2>
+
+          <div class="flex items-center gap-2 mb-3">
+            <span id="pModalSize" class="text-xs font-semibold text-heritage-gold uppercase tracking-wider">Size</span>
+            <span class="text-gray-300">•</span>
+            <span id="pModalBadge" class="text-[11px] font-bold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-full">Bestseller</span>
+          </div>
+
+          <!-- Price Row -->
+          <div class="flex items-baseline gap-3 p-3 rounded-xl bg-white border border-heritage-border mb-4">
+            <span id="pModalPrice" class="font-cinzel text-2xl font-bold text-heritage-obsidian">₹1,499</span>
+            <span id="pModalMrp" class="text-sm text-gray-400 line-through">₹2,499</span>
+            <span id="pModalDiscount" class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Save 40%</span>
+          </div>
+
+          <!-- Narrative -->
+          <p id="pModalDesc" class="text-xs text-heritage-charcoal leading-relaxed mb-4">
+            Detailed description here.
+          </p>
+
+          <!-- Specifications Breakdown -->
+          <div class="bg-white rounded-2xl p-4 border border-heritage-border space-y-2 text-xs mb-4">
+            <div class="font-cinzel font-bold text-heritage-obsidian border-b border-gray-100 pb-1.5 text-xs uppercase tracking-wider">
+              Artisan Craft Specifications
+            </div>
+            <div class="flex justify-between py-0.5">
+              <span class="text-gray-500">Dimensions:</span>
+              <span id="pModalSpecDim" class="font-bold text-heritage-obsidian text-right">-</span>
+            </div>
+            <div class="flex justify-between py-0.5">
+              <span class="text-gray-500">Material & Weave:</span>
+              <span id="pModalSpecWeave" class="font-bold text-heritage-obsidian text-right">-</span>
+            </div>
+            <div class="flex justify-between py-0.5">
+              <span class="text-gray-500">Weight & Feel:</span>
+              <span id="pModalSpecWeight" class="font-bold text-heritage-obsidian text-right">-</span>
+            </div>
+            <div class="flex justify-between py-0.5">
+              <span class="text-gray-500">Wash Care:</span>
+              <span id="pModalSpecCare" class="font-bold text-heritage-obsidian text-right">-</span>
+            </div>
+          </div>
+
+          <!-- Trust & 7-Day Delivery Highlight -->
+          <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 space-y-1 mb-5">
+            <div class="font-bold flex items-center gap-1.5 text-emerald-950">
+              <i data-lucide="truck" class="w-4 h-4 text-emerald-700"></i>
+              <span>7-Day Pan-India Delivery Guarantee</span>
+            </div>
+            <p class="text-[11px] text-emerald-800">
+              Dispatched directly from Vaishali Nagar, Jaipur workshop. Includes free 7-day hassle-free replacement.
+            </p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-2 pt-2">
+          <a id="pModalWhatsAppBtn" href="#" target="_blank" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>Order on WhatsApp (7-Day Delivery)</span>
+          </a>
+
+          <button id="pModalAddBagBtn" class="w-full py-3 rounded-xl border-2 border-heritage-gold bg-amber-50 hover:bg-amber-100 text-heritage-obsidian font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition">
+            <i data-lucide="shopping-bag" class="w-4 h-4 text-heritage-gold"></i>
+            <span>Add to Shopping Bag</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 15. FULLSCREEN INSTAGRAM REEL VIDEO PLAYER MODAL -->
   <div id="reelModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="relative w-full h-full sm:h-[85vh] sm:max-w-sm sm:rounded-3xl overflow-hidden bg-black flex flex-col justify-between shadow-2xl border sm:border-2 border-amber-500/40">
       
@@ -1065,7 +1216,7 @@
 
   <!-- JAVASCRIPT: DATA & INTERACTIONS -->
   <script>
-    // 12 REAL PRODUCTS MATCHING NIDHI'S CATALOGUE
+    // 12 REAL PRODUCTS MATCHING NIDHI'S CATALOGUE WITH MULTI-ANGLE PHOTOS
     const productsData = [
       {
         id: "carpet-indigo-4x6",
@@ -1073,10 +1224,38 @@
         category: "carpets",
         price: 1499,
         mrp: 2499,
-        size: "4 Feet × 6 Feet",
+        size: "4 Feet × 6 Feet (120 × 180 cm)",
         badge: "Bestseller",
         image: "assets/images/carpet-indigo-4x6.jpg",
-        desc: "Hand block printed cotton rug. Features intricate indigo floral jaal border with cream center and fringed edge tassels."
+        desc: "Hand block printed pure cotton dhurrie rug. Features intricate indigo floral jaal border with cream center and fringed edge tassels.",
+        photos: [
+          {
+            url: "assets/images/carpet-indigo-4x6.jpg",
+            title: "Living Room Floor Setting",
+            caption: "Anchoring a 3-seater sofa or coffee table setup with classic Jaipur royal blue and ivory contrast."
+          },
+          {
+            url: "assets/images/carpet-indigo-pattern.jpg",
+            title: "Top-Down Floral Jaal Flatlay",
+            caption: "Top-down view displaying symmetrical Sanganeri vines, solid navy border framing, and natural cotton ground."
+          },
+          {
+            url: "assets/images/carpet-indigo-tassels.jpg",
+            title: "Corner Tassel & Fringe Detail",
+            caption: "Double-weft border with artisan hand-tied pure cotton fringe tassels that lay completely flat on wood and tile floors."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Master Artisan Block Print Process",
+            caption: "Hand-stamped in Jaipur using seasoned sheesham wood blocks and non-toxic AZO-free dyes with zero chemical bleeds."
+          }
+        ],
+        specs: {
+          dim: "4 Feet × 6 Feet (120 × 180 cm)",
+          weave: "100% Export Grade Heavy Cotton Flatweave",
+          weight: "Approx 2.2 kg (Non-skid heavy cotton)",
+          care: "Spot clean or gentle cold machine wash; dry in shade"
+        }
       },
       {
         id: "carpet-oriental-red",
@@ -1084,10 +1263,38 @@
         category: "carpets",
         price: 1699,
         mrp: 2799,
-        size: "4 Feet × 6 Feet",
+        size: "4 Feet × 6 Feet (120 × 180 cm)",
         badge: "Royal Palace",
         image: "assets/images/carpet-red-medallion.jpg",
-        desc: "Deep crimson red and antique gold oriental medallion motif carpet with white fringes, inspired by Rajput palaces."
+        desc: "Deep crimson red and antique gold oriental medallion motif carpet with white fringes, inspired by Rajput palaces.",
+        photos: [
+          {
+            url: "assets/images/carpet-red-medallion.jpg",
+            title: "Regal Rajput Palace Medallion View",
+            caption: "Full overview inspired by classic royal heritage palaces of Rajasthan with antique gold detailing."
+          },
+          {
+            url: "assets/images/carpet-red-center.jpg",
+            title: "Central Medallion Motif Macro",
+            caption: "Close inspection of the intricate 8-point royal star medallion with delicate filigree and floral infill."
+          },
+          {
+            url: "assets/images/carpet-red-border.jpg",
+            title: "Dual Border & Fringe Edge",
+            caption: "High density flatweave border featuring geometric framing and clean white hand-knotted cotton fringes."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Artisan Woodblock Stamping",
+            caption: "Individually hand-printed with authentic wooden blocks in Sanganer workshop."
+          }
+        ],
+        specs: {
+          dim: "4 Feet × 6 Feet (120 × 180 cm)",
+          weave: "Heavyweight Jaipur Cotton Dhurrie",
+          weight: "Approx 2.4 kg",
+          care: "Cold water wash with mild detergent or dry clean"
+        }
       },
       {
         id: "cushions-tufted-embroidery",
@@ -1095,10 +1302,38 @@
         category: "cushions",
         price: 499,
         mrp: 899,
-        size: "16 × 16 Inches",
+        size: "16 × 16 Inches (40 × 40 cm)",
         badge: "Artisan Craft",
         image: "assets/images/cushion-tufted-embroidery.jpg",
-        desc: "Textured punch-needle 3D floral embroidery in mustard, poppy red, and sky blue on natural cotton base with corner tassels."
+        desc: "Textured punch-needle 3D floral embroidery in mustard, poppy red, and sky blue on natural cotton base with corner tassels.",
+        photos: [
+          {
+            url: "assets/images/cushion-tufted-embroidery.jpg",
+            title: "Front Profile - 3D Floral Punch Needle",
+            caption: "Natural unbleached cotton base adorned with vibrant marigold, poppy, and cornflower textured petals."
+          },
+          {
+            url: "assets/images/cushion-tufted-macro.jpg",
+            title: "3D Textured Yarn Loop Macro",
+            caption: "High-density punch-needle yarn loops creating tactile depth and relief that will not flatten over time."
+          },
+          {
+            url: "assets/images/cushion-tufted-corner.jpg",
+            title: "Hand-Tied Corner Tassel & Slub Canvas",
+            caption: "Sturdy slub cotton canvas with custom dyed mustard yellow wool corner tassels and hidden zipper."
+          },
+          {
+            url: "assets/images/cushions-lumbar-set.jpg",
+            title: "Living Room Styling Arrangement",
+            caption: "Pairs effortlessly with bohemian throws, modern cream couches, and wooden armchairs."
+          }
+        ],
+        specs: {
+          dim: "16 × 16 Inches (40 × 40 cm)",
+          weave: "Punch-Needle Wool Embroidery on Slub Cotton Canvas",
+          weight: "Approx 320 grams",
+          care: "Dry clean recommended or spot clean with damp cloth"
+        }
       },
       {
         id: "dohar-set-royal",
@@ -1109,7 +1344,35 @@
         size: "King Size (108×108) + Reversible Dohar",
         badge: "Export Grade",
         image: "assets/images/mulmul-dohar-bedsheet.jpg",
-        desc: "Pure white mulmul cotton with royal Jaipur blue block print. Reversible 3-layer breathable dohar with matching bedsheet & pillow covers."
+        desc: "Pure white mulmul cotton with royal Jaipur blue block print. Reversible 3-layer breathable dohar with matching bedsheet & pillow covers.",
+        photos: [
+          {
+            url: "assets/images/mulmul-dohar-bedsheet.jpg",
+            title: "King Bed Full Styling Suite",
+            caption: "Breathable 3-piece bedding suite: 1x Reversible Mulmul Dohar + 1x King Bedsheet + 2x Pillow Covers."
+          },
+          {
+            url: "assets/images/dohar-mulmul-fold.jpg",
+            title: "3-Layer Mulmul Voile Fold Macro",
+            caption: "Cloud-soft triple layer cotton voile with delicate linear quilting to ensure featherlight warmth in AC."
+          },
+          {
+            url: "assets/images/dohar-mulmul-booti.jpg",
+            title: "Sanganeri Blue Floral Booti Stamp",
+            caption: "Authentic Jaipur booti floral blocks hand-stamped with natural AZO-free dye on pure cotton ground."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Artisan Block Print Workshop",
+            caption: "Crafted by multi-generational textile artisans in Jaipur with traditional table-printing technique."
+          }
+        ],
+        specs: {
+          dim: "King Dohar 90×108 in | Bedsheet 108×108 in",
+          weave: "100% Mulmul Cotton (300 Thread Count feel)",
+          weight: "Approx 1.8 kg complete suite",
+          care: "Gentle machine wash in cold water with liquid detergent"
+        }
       },
       {
         id: "cushion-blockprint-floral",
@@ -1117,10 +1380,38 @@
         category: "cushions",
         price: 349,
         mrp: 699,
-        size: "16 × 16 Inches",
+        size: "16 × 16 Inches (40 × 40 cm)",
         badge: "Classic Jaipur",
         image: "assets/images/cushion-blockprint-cousin.jpg",
-        desc: "Quilted pure cotton cushion cover featuring symmetrical Sanganeri floral vines and contrasting green stitched piping."
+        desc: "Quilted pure cotton cushion cover featuring symmetrical Sanganeri floral vines and contrasting green stitched piping.",
+        photos: [
+          {
+            url: "assets/images/cushion-blockprint-cousin.jpg",
+            title: "Symmetrical Sanganeri Floral Cushion",
+            caption: "Traditional twin-flower jaal in blush pink and sage green on ivory quilted cotton fabric."
+          },
+          {
+            url: "assets/images/cushion-quilt-macro.jpg",
+            title: "Channel Quilting & Fabric Texture",
+            caption: "Linear machine quilting that adds structure and plush handfeel to the cotton cushion cover."
+          },
+          {
+            url: "assets/images/cushions-lumbar-set.jpg",
+            title: "Sofa Layering Inspiration",
+            caption: "Shows how to coordinate with lumbar pillows and solid neutrals for a designer living space."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Jaipur Hand-Block Printing",
+            caption: "Each flower block aligned by hand to ensure authentic artistic variation."
+          }
+        ],
+        specs: {
+          dim: "16 × 16 Inches (40 × 40 cm)",
+          weave: "Pure Cotton Voile with Cotton Flannel Quilted Lining",
+          weight: "Approx 220 grams",
+          care: "Hand wash separately in cold water; dry in shade"
+        }
       },
       {
         id: "lumbar-duo-tassels",
@@ -1131,7 +1422,30 @@
         size: "Set of 2 Covers",
         badge: "Value Duo",
         image: "assets/images/lumbar-covers-pair.jpg",
-        desc: "Coordinated pair of lumbar pillow covers featuring delicate pink tulip motifs on off-white cotton with deep green corner pom-poms."
+        desc: "Coordinated pair of lumbar pillow covers featuring delicate pink tulip motifs on off-white cotton with deep green corner pom-poms.",
+        photos: [
+          {
+            url: "assets/images/lumbar-covers-pair.jpg",
+            title: "Twin Coordinated Lumbar Set",
+            caption: "Set of 2 covers: 1x elongated bolster (14×32) and 1x compact accent cushion (12×20) with tulip motifs."
+          },
+          {
+            url: "assets/images/lumbar-14x32-detail.jpg",
+            title: "Elongated 14×32 Lumbar Detail",
+            caption: "Wide lumbar format specifically designed to support the lower back on 3-seater sofas or king beds."
+          },
+          {
+            url: "assets/images/cushions-lumbar-set.jpg",
+            title: "Artisan Corner Pom-Pom Finish",
+            caption: "Hand-spun emerald green yarn pom-poms sewn into each corner for playful artisan luxury."
+          }
+        ],
+        specs: {
+          dim: "1 Cover (14×32 in) + 1 Cover (12×20 in)",
+          weave: "Pre-shrunk 100% Slub Cotton",
+          weight: "Approx 450 grams for pair",
+          care: "Gentle hand wash inside out in cold water"
+        }
       },
       {
         id: "carpet-boho-rainbow",
@@ -1139,10 +1453,33 @@
         category: "carpets",
         price: 1299,
         mrp: 1999,
-        size: "4 Feet × 6 Feet",
+        size: "4 Feet × 6 Feet (120 × 180 cm)",
         badge: "Handwoven",
         image: "assets/images/carpet-boho-rainbow.jpg",
-        desc: "Handwoven horizontal multi-tone textured dhurrie with orange and turquoise tassels. Durable, reversible, and 100% washable."
+        desc: "Handwoven horizontal multi-tone textured dhurrie with orange and turquoise tassels. Durable, reversible, and 100% washable.",
+        photos: [
+          {
+            url: "assets/images/carpet-boho-rainbow.jpg",
+            title: "Multicolor Horizon Stripe Dhurrie",
+            caption: "Vibrant horizontal bands of terracotta, mustard, cobalt blue, and forest green for modern boho homes."
+          },
+          {
+            url: "assets/images/carpet-boho-texture.jpg",
+            title: "Textured Heavy Flatweave Macro",
+            caption: "Durable thick cotton yarns woven on traditional pit looms; reversible design with dual-side usability."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Pit Loom Weaving Craftsmanship",
+            caption: "Handwoven by master weavers in Rajasthan using pre-dyed eco-friendly cotton cords."
+          }
+        ],
+        specs: {
+          dim: "4 Feet × 6 Feet (120 × 180 cm)",
+          weave: "Handwoven Reversible Cotton Dhurrie",
+          weight: "Approx 2.3 kg",
+          care: "Vacuum regularly; spot clean or cold wash"
+        }
       },
       {
         id: "bed-runner-plush",
@@ -1150,10 +1487,33 @@
         category: "runners",
         price: 999,
         mrp: 1699,
-        size: "2 Feet × 5 Feet",
+        size: "2 Feet × 5 Feet (60 × 150 cm)",
         badge: "Cozy Bedroom",
         image: "assets/images/runner-bedside-neutral.jpg",
-        desc: "Soft neutral mink-beige textured bedside runner rug designed to add warm comfort right beside your bed."
+        desc: "Soft neutral mink-beige textured bedside runner rug designed to add warm comfort right beside your bed.",
+        photos: [
+          {
+            url: "assets/images/runner-bedside-neutral.jpg",
+            title: "Cozy Bedside Walkway Setup",
+            caption: "Placed beside the bed to provide soft warmth underfoot every morning; neutral mink-beige tone."
+          },
+          {
+            url: "assets/images/runner-plush-macro.jpg",
+            title: "Plush Textured Woven Ground",
+            caption: "Dense bouclé-textured cotton yarn offering high comfort and natural sound absorption."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Handwoven Loom Edge Finish",
+            caption: "Reinforced woven hems crafted for high-traffic bedroom walkways."
+          }
+        ],
+        specs: {
+          dim: "2 Feet × 5 Feet (60 × 150 cm)",
+          weave: "Bouclé Textured Plush Cotton",
+          weight: "Approx 1.4 kg",
+          care: "Machine wash cold on delicate cycle"
+        }
       },
       {
         id: "carpet-geometric-4x6",
@@ -1161,10 +1521,38 @@
         category: "carpets",
         price: 1599,
         mrp: 2599,
-        size: "4 Feet × 6 Feet",
+        size: "4 Feet × 6 Feet (120 × 180 cm)",
         badge: "Living Room Edit",
         image: "assets/images/carpet-indigo-4x6.jpg",
-        desc: "Premium hand block printed flatweave rug in ivory and deep navy geometric block print, ideal for coffee table spaces."
+        desc: "Premium hand block printed flatweave rug in ivory and deep navy geometric block print, ideal for coffee table spaces.",
+        photos: [
+          {
+            url: "assets/images/carpet-indigo-4x6.jpg",
+            title: "Geometric Navy Sanganeri Rug",
+            caption: "Modern geometric borders combined with classic Jaipur floral symmetry."
+          },
+          {
+            url: "assets/images/carpet-indigo-pattern.jpg",
+            title: "Pattern Field Macro",
+            caption: "Detailed look at the sharp block registration and natural ivory cotton backdrop."
+          },
+          {
+            url: "assets/images/carpet-indigo-tassels.jpg",
+            title: "Fringe Tassels Macro",
+            caption: "Pure white hand-knotted cotton tassels along both short ends."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Hand Stamping Quality Control",
+            caption: "Every square inch inspected before final finishing and fringing."
+          }
+        ],
+        specs: {
+          dim: "4 Feet × 6 Feet (120 × 180 cm)",
+          weave: "Heavy Cotton Flatweave Dhurrie",
+          weight: "Approx 2.2 kg",
+          care: "Cold water wash; colorfast guaranteed"
+        }
       },
       {
         id: "jaipuri-ac-quilt",
@@ -1175,7 +1563,35 @@
         size: "King Size 90×108 in",
         badge: "Cloud Soft",
         image: "assets/images/mulmul-dohar-bedsheet.jpg",
-        desc: "Lightweight 100% cotton voile stuffed with surgical micro-cotton carding for maximum AC breathability."
+        desc: "Lightweight 100% cotton voile stuffed with surgical micro-cotton carding for maximum AC breathability.",
+        photos: [
+          {
+            url: "assets/images/mulmul-dohar-bedsheet.jpg",
+            title: "Cloud-Soft Summer AC Quilt",
+            caption: "Single/Double breathable quilt filled with carded micro-cotton for pleasant 20-25°C AC temperatures."
+          },
+          {
+            url: "assets/images/dohar-mulmul-fold.jpg",
+            title: "Dohar Layering & Border Piping",
+            caption: "Double-stitched striped piping along the entire perimeter for long-lasting durability."
+          },
+          {
+            url: "assets/images/dohar-mulmul-booti.jpg",
+            title: "Natural Indigo Floral Stamp",
+            caption: "Pure vegetable dye stamped on 100% fine cotton voile."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Artisan Carding & Quilting",
+            caption: "Hand-carded natural cotton interior for uniform softness with zero lumping."
+          }
+        ],
+        specs: {
+          dim: "King Size 90 × 108 Inches (228 × 274 cm)",
+          weave: "Mulmul Voile with Surgical Grade Cotton Carding",
+          weight: "Approx 1.1 kg (Featherlight)",
+          care: "Dry clean or gentle machine wash on delicate"
+        }
       },
       {
         id: "lumbar-pastel-tassel",
@@ -1183,10 +1599,33 @@
         category: "cushions",
         price: 599,
         mrp: 999,
-        size: "14 × 32 Inches",
+        size: "14 × 32 Inches (35 × 80 cm)",
         badge: "Pure Cotton",
         image: "assets/images/lumbar-covers-pair.jpg",
-        desc: "Single elongated lumbar cushion cover featuring classic rose and sage floral motifs with hand-tied corner tassels."
+        desc: "Single elongated lumbar cushion cover featuring classic rose and sage floral motifs with hand-tied corner tassels.",
+        photos: [
+          {
+            url: "assets/images/lumbar-covers-pair.jpg",
+            title: "Pastel Sanganeri Lumbar Pillow",
+            caption: "Delicate dusty rose and sage green floral vines on off-white cotton slub fabric."
+          },
+          {
+            url: "assets/images/lumbar-14x32-detail.jpg",
+            title: "Hand-Tied Corner Tassels",
+            caption: "Crafted corner tassels that hold their shape and accentuate sofa corners."
+          },
+          {
+            url: "assets/images/cushions-lumbar-set.jpg",
+            title: "Sofa Setup & Styling",
+            caption: "Ideal central anchor for deep sofas or reading recliners."
+          }
+        ],
+        specs: {
+          dim: "14 × 32 Inches (35 × 80 cm)",
+          weave: "100% Slub Cotton with Block Print",
+          weight: "Approx 280 grams",
+          care: "Gentle hand wash in cold water"
+        }
       },
       {
         id: "luxury-gifting-box",
@@ -1197,7 +1636,30 @@
         size: "Magnetic Rigid Keepsake Box",
         badge: "Wedding & Bulk",
         image: "assets/images/luxury-gifting-box.jpg",
-        desc: "Includes 1x Pure Mulmul Dohar, 1x Handcrafted Brass Candle, Golden Satin Ribbon & Custom Wax Seal Tag."
+        desc: "Includes 1x Pure Mulmul Dohar, 1x Handcrafted Brass Candle, Golden Satin Ribbon & Custom Wax Seal Tag.",
+        photos: [
+          {
+            url: "assets/images/luxury-gifting-box.jpg",
+            title: "Bespoke Royal Keepsake Box",
+            caption: "Rigid magnetic closure luxury gift box wrapped in textured ivory paper with golden embossing."
+          },
+          {
+            url: "assets/images/hamper-interior-macro.jpg",
+            title: "Unboxed Contents & Folded Dohar",
+            caption: "Includes 1x Pure Mulmul Dohar, 1x Hammered Brass Scented Candle, and Gold Satin Ribbon."
+          },
+          {
+            url: "assets/images/artisan-craft.jpg",
+            title: "Handcrafted Packaging & Wax Seal",
+            caption: "Personalized with wax-seal stamped greeting cards and bespoke couple/corporate initials."
+          }
+        ],
+        specs: {
+          dim: "14 × 10 × 4 Inches Rigid Box",
+          weave: "Handcrafted Rigid Box + 100% Mulmul Cotton Dohar",
+          weight: "Approx 1.9 kg complete gift set",
+          care: "Customizable wax-seal tags available for 25+ orders"
+        }
       }
     ];
 
@@ -1212,21 +1674,38 @@
         const card = document.createElement('div');
         card.className = "bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-heritage-border flex flex-col justify-between group card-3d";
 
+        const photoCount = product.photos ? product.photos.length : 1;
+
         card.innerHTML = `
           <div>
-            <div class="relative overflow-hidden aspect-[4/3] bg-heritage-sand">
+            <!-- Clickable Product Image triggers Multi-Photo Modal -->
+            <div class="relative overflow-hidden aspect-[4/3] bg-heritage-sand cursor-pointer" onclick="openProductModal('${product.id}')">
               <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              <span class="absolute top-2.5 left-2.5 bg-heritage-obsidian/90 text-amber-300 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full backdrop-blur-sm border border-amber-400/20">
+              
+              <span class="absolute top-2.5 left-2.5 bg-heritage-obsidian/90 text-amber-300 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full backdrop-blur-sm border border-amber-400/20 shadow">
                 ${product.badge}
               </span>
-              <span class="absolute bottom-2.5 right-2.5 bg-emerald-800/90 text-white text-[9px] font-bold px-2 py-0.5 rounded backdrop-blur-sm flex items-center gap-1">
+              
+              <!-- Multi-Photo Count Pill -->
+              <span class="absolute top-2.5 right-2.5 bg-black/75 text-white text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-sm flex items-center gap-1 border border-white/20 shadow">
+                <i data-lucide="camera" class="w-3 h-3 text-amber-300"></i> ${photoCount} Photos
+              </span>
+
+              <span class="absolute bottom-2.5 right-2.5 bg-emerald-800/90 text-white text-[9px] font-bold px-2 py-0.5 rounded backdrop-blur-sm flex items-center gap-1 shadow">
                 <i data-lucide="truck" class="w-3 h-3"></i> 7-Day Delivery
               </span>
+
+              <!-- Hover View Photos Overlay -->
+              <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span class="px-3.5 py-1.5 rounded-full bg-white/95 text-heritage-obsidian font-bold text-xs shadow-xl backdrop-blur-sm flex items-center gap-1.5 transform group-hover:scale-105 transition-transform">
+                  <i data-lucide="eye" class="w-3.5 h-3.5 text-heritage-gold"></i> Inspect ${photoCount} Photos
+                </span>
+              </div>
             </div>
 
             <div class="p-4 sm:p-5">
               <span class="text-[10px] uppercase tracking-wider font-semibold text-heritage-gold block mb-1">${product.size}</span>
-              <h3 class="font-cinzel text-sm sm:text-base font-bold text-heritage-obsidian mb-1.5 group-hover:text-heritage-gold transition line-clamp-1">
+              <h3 onclick="openProductModal('${product.id}')" class="font-cinzel text-sm sm:text-base font-bold text-heritage-obsidian mb-1.5 group-hover:text-heritage-gold transition line-clamp-1 cursor-pointer">
                 ${product.name}
               </h3>
               <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed mb-3">
@@ -1241,14 +1720,20 @@
             </div>
           </div>
 
-          <div class="p-4 sm:p-5 pt-0 grid grid-cols-2 gap-2">
-            <button onclick="addToCart('${product.id}')" class="py-2.5 px-2 rounded-xl border border-heritage-border text-heritage-obsidian font-bold text-xs hover:bg-amber-50 transition flex items-center justify-center gap-1">
-              <i data-lucide="plus" class="w-3.5 h-3.5 text-heritage-gold"></i>
-              <span>Add to Bag</span>
-            </button>
-            <a href="https://wa.me/918003255584?text=Namaste%20Nidhi%20ji!%20I%20want%20to%20order%20from%20Heritage%20Handicrafts:%20${encodeURIComponent(product.name)}%20(Rs.${product.price}).%20Please%20confirm%207-day%20delivery." target="_blank" class="py-2.5 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center justify-center gap-1 shadow-sm">
+          <div class="p-4 sm:p-5 pt-0 flex flex-col gap-2">
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="openProductModal('${product.id}')" class="py-2.5 px-2 rounded-xl border border-heritage-border text-heritage-obsidian font-bold text-xs hover:bg-amber-50 transition flex items-center justify-center gap-1">
+                <i data-lucide="images" class="w-3.5 h-3.5 text-heritage-gold"></i>
+                <span>Photos (${photoCount})</span>
+              </button>
+              <button onclick="addToCart('${product.id}')" class="py-2.5 px-2 rounded-xl gold-gradient text-heritage-obsidian font-bold text-xs hover:brightness-105 transition flex items-center justify-center gap-1 shadow-sm">
+                <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+                <span>Add to Bag</span>
+              </button>
+            </div>
+            <a href="https://wa.me/918003255584?text=Namaste%20Nidhi%20ji!%20I%20want%20to%20order%20from%20Heritage%20Handicrafts:%20${encodeURIComponent(product.name)}%20(Rs.${product.price}).%20Please%20confirm%207-day%20delivery." target="_blank" class="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center justify-center gap-1 shadow-sm">
               <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-              <span>1-Tap Order</span>
+              <span>1-Tap WhatsApp Order</span>
             </a>
           </div>
         `;
@@ -1588,6 +2073,127 @@
       }
       lucide.createIcons();
     }
+
+    // MULTI-PHOTO PRODUCT DETAIL MODAL CONTROLLER
+    let currentProduct = null;
+    let currentPhotoIndex = 0;
+
+    function openProductModal(productId) {
+      const product = productsData.find(p => p.id === productId);
+      if (!product) return;
+
+      currentProduct = product;
+      currentPhotoIndex = 0;
+
+      // Populate basic info
+      document.getElementById('pModalTitle').textContent = product.name;
+      document.getElementById('pModalSize').textContent = product.size;
+      document.getElementById('pModalBadge').textContent = product.badge;
+      document.getElementById('pModalPrice').textContent = `₹${product.price.toLocaleString('en-IN')}`;
+      document.getElementById('pModalMrp').textContent = `₹${product.mrp.toLocaleString('en-IN')}`;
+      const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
+      document.getElementById('pModalDiscount').textContent = `Save ${discount}%`;
+      document.getElementById('pModalDesc').textContent = product.desc;
+
+      // Specs
+      if (product.specs) {
+        document.getElementById('pModalSpecDim').textContent = product.specs.dim || product.size;
+        document.getElementById('pModalSpecWeave').textContent = product.specs.weave || "100% Export Grade Cotton";
+        document.getElementById('pModalSpecWeight').textContent = product.specs.weight || "Standard Export Weight";
+        document.getElementById('pModalSpecCare').textContent = product.specs.care || "Gentle cold water wash";
+      }
+
+      // WhatsApp Button
+      const waBtn = document.getElementById('pModalWhatsAppBtn');
+      waBtn.href = `https://wa.me/918003255584?text=Namaste%20Nidhi%20ji!%20I%20saw%20multiple%20photos%20of%20${encodeURIComponent(product.name)}%20(Rs.${product.price})%20on%20your%20website%20and%20want%20to%20order%20with%207-day%20delivery.`;
+
+      // Add to bag button
+      const addBagBtn = document.getElementById('pModalAddBagBtn');
+      addBagBtn.onclick = () => {
+        addToCart(product.id);
+      };
+
+      // Populate Thumbnails and Main Photo
+      renderProductThumbs();
+      updatePhotoView();
+
+      // Show modal
+      const modal = document.getElementById('productDetailModal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      lucide.createIcons();
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('productDetailModal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function renderProductThumbs() {
+      const thumbsContainer = document.getElementById('pModalThumbs');
+      thumbsContainer.innerHTML = '';
+
+      if (!currentProduct.photos || currentProduct.photos.length === 0) {
+        currentProduct.photos = [{ url: currentProduct.image, title: "Overview", caption: currentProduct.desc }];
+      }
+
+      currentProduct.photos.forEach((photo, idx) => {
+        const thumb = document.createElement('button');
+        thumb.className = `shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 transition-all p-0.5 ${
+          idx === currentPhotoIndex ? 'border-heritage-gold shadow-md scale-105' : 'border-gray-200 opacity-70 hover:opacity-100'
+        }`;
+        thumb.onclick = () => {
+          currentPhotoIndex = idx;
+          updatePhotoView();
+        };
+        thumb.innerHTML = `<img src="${photo.url}" alt="${photo.title}" class="w-full h-full object-cover rounded-lg" />`;
+        thumbsContainer.appendChild(thumb);
+      });
+    }
+
+    function updatePhotoView() {
+      if (!currentProduct || !currentProduct.photos) return;
+      const photo = currentProduct.photos[currentPhotoIndex] || currentProduct.photos[0];
+
+      document.getElementById('pModalMainImg').src = photo.url;
+      document.getElementById('pModalAngleBadge').textContent = `Shot ${currentPhotoIndex + 1} of ${currentProduct.photos.length}: ${photo.title}`;
+      document.getElementById('pModalThumbCounter').textContent = `${currentPhotoIndex + 1} of ${currentProduct.photos.length}`;
+      document.getElementById('pModalPhotoStoryTitle').textContent = `Angle ${currentPhotoIndex + 1}: ${photo.title}`;
+      document.getElementById('pModalPhotoStoryDesc').textContent = photo.caption;
+
+      // Update active thumbnail border
+      const thumbs = document.getElementById('pModalThumbs').querySelectorAll('button');
+      thumbs.forEach((t, i) => {
+        if (i === currentPhotoIndex) {
+          t.className = "shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-heritage-gold shadow-md scale-105 transition-all p-0.5";
+        } else {
+          t.className = "shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-gray-200 opacity-70 hover:opacity-100 transition-all p-0.5";
+        }
+      });
+    }
+
+    function prevProductPhoto() {
+      if (!currentProduct || !currentProduct.photos) return;
+      currentPhotoIndex = (currentPhotoIndex - 1 + currentProduct.photos.length) % currentProduct.photos.length;
+      updatePhotoView();
+    }
+
+    function nextProductPhoto() {
+      if (!currentProduct || !currentProduct.photos) return;
+      currentPhotoIndex = (currentPhotoIndex + 1) % currentProduct.photos.length;
+      updatePhotoView();
+    }
+
+    // Keyboard support: Escape closes modals, Left/Right changes photos
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeProductModal();
+        closeReelModal();
+      } else if (e.key === 'ArrowLeft') {
+        prevProductPhoto();
+      } else if (e.key === 'ArrowRight') {
+        nextProductPhoto();
+      }
+    });
 
     // LIVE ORDER TOAST SIMULATOR (JAIPURCRAFT STYLE SOCIAL PROOF)
     const toastOrders = [
