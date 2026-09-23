@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth overflow-x-hidden w-full max-w-full">
+<html lang="en" class="scroll-smooth w-full">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
@@ -15,16 +15,18 @@
   <meta property="og:description" content="Export quality Mul-cotton bedsheets, Dohars, 4x6 Carpets, and handcrafted home textiles from Jaipur. 7-Day Pan-India Delivery." />
   <meta property="og:image" content="assets/images/hero-jaipur.jpg" />
 
-  <!-- Google Fonts: Cinzel (Regal Serif) + Plus Jakarta Sans (Modern Body) -->
+  <!-- Preconnect & DNS-Prefetch for Speed -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lucide Icons CDN (Direct Minified Bundle) -->
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -59,11 +61,17 @@
   </script>
 
   <style>
-    /* Strict Mobile Responsiveness & Overflow Prevention */
-    html, body {
+    /* Strict Mobile Responsiveness & Fluid Document Scrolling */
+    html {
+      width: 100%;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
       width: 100%;
       max-width: 100%;
-      overflow-x: hidden !important;
+      overflow-x: clip; /* clip prevents horizontal overflow without breaking window.scrollTo or anchor hash navigation */
       position: relative;
       margin: 0;
       padding: 0;
@@ -71,10 +79,17 @@
       color: #1E1B18;
       font-family: 'Plus Jakarta Sans', sans-serif;
       -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     
     * {
       box-sizing: border-box;
+    }
+
+    /* Section scroll offset for sticky header */
+    #catalogue, #instagram-reels, #calculator, #gifting, #studio {
+      scroll-margin-top: 76px;
     }
 
     .font-cinzel { font-family: 'Cinzel', serif; }
@@ -201,7 +216,7 @@
     }
   </style>
 </head>
-<body class="antialiased selection:bg-amber-200 selection:text-amber-950 pb-20 md:pb-0 overflow-x-hidden">
+<body class="antialiased selection:bg-amber-200 selection:text-amber-950 pb-20 md:pb-0">
 
   <!-- Scroll Progress Indicator -->
   <div id="scrollProgressBar"></div>
@@ -258,13 +273,13 @@
             <i data-lucide="chevron-down" id="showcaseChevron" class="w-3.5 h-3.5 text-heritage-gold transition-transform duration-300"></i>
           </button>
           
-          <a href="#instagram-reels" class="hover:text-heritage-gold transition py-2 flex items-center gap-1.5 text-amber-900 font-bold">
+          <a href="#instagram-reels" onclick="return scrollToSection('instagram-reels', event)" class="hover:text-heritage-gold transition py-2 flex items-center gap-1.5 text-amber-900 font-bold">
             <span class="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse"></span>
             <span>Live Reels</span>
           </a>
           
-          <a href="#calculator" class="hover:text-heritage-gold transition py-2">Room Sizer</a>
-          <a href="#studio" class="hover:text-heritage-gold transition py-2">Studio</a>
+          <a href="#calculator" onclick="return scrollToSection('calculator', event)" class="hover:text-heritage-gold transition py-2">Room Sizer</a>
+          <a href="#studio" onclick="return scrollToSection('studio', event)" class="hover:text-heritage-gold transition py-2">Studio</a>
         </div>
 
         <!-- Right Action: Mobile Showcase & Bag (Fitted & Fully Visible) -->
@@ -491,7 +506,7 @@
           <i data-lucide="chevron-down" class="w-4 h-4"></i>
         </button>
 
-        <a href="#catalogue" class="w-full sm:w-auto px-5 py-3 sm:px-7 sm:py-4 rounded-full luxury-glass text-white hover:text-amber-200 font-semibold text-xs sm:text-sm tracking-[0.08em] sm:tracking-[0.1em] uppercase transition flex items-center justify-center gap-2 border border-amber-400/35 shadow-xl hover:bg-white/10">
+        <a href="#catalogue" onclick="return scrollToSection('catalogue', event)" class="w-full sm:w-auto px-5 py-3.5 sm:px-7 sm:py-4 rounded-full luxury-glass text-white hover:text-amber-200 font-semibold text-xs sm:text-sm tracking-[0.08em] sm:tracking-[0.1em] uppercase transition flex items-center justify-center gap-2 border border-amber-400/35 shadow-xl hover:bg-white/10 active:scale-95 cursor-pointer">
           <span>Browse All Heirlooms</span>
           <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-amber-300"></i>
         </a>
@@ -523,7 +538,7 @@
       </div>
 
       <!-- Delicate Floating Scroll Indicator -->
-      <div class="mt-6 sm:mt-10 flex flex-col items-center gap-1.5 text-amber-300/80 animate-bounce cursor-pointer group" onclick="document.getElementById('catalogue').scrollIntoView({behavior: 'smooth'})">
+      <div class="mt-6 sm:mt-10 flex flex-col items-center gap-1.5 text-amber-300/80 animate-bounce cursor-pointer group" onclick="return scrollToSection('catalogue', event)">
         <span class="text-[8px] sm:text-[10px] uppercase tracking-[0.25em] font-medium group-hover:text-amber-200 transition">Scroll to Discover The Crafts</span>
         <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-heritage-gold"></i>
       </div>
@@ -600,7 +615,7 @@
       <!-- Reel 1: 4x6 Carpet Video -->
       <div onclick="openReelModal(0)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-heritage-border group flex flex-col justify-between card-3d">
         <div class="relative aspect-[9/14] bg-heritage-obsidian overflow-hidden">
-          <img src="assets/images/carpet-indigo-4x6.jpg" alt="Indigo Carpet Reel" class="w-full h-full object-cover animate-reel-zoom group-hover:brightness-95 transition" />
+          <img src="assets/images/carpet-indigo-4x6.jpg" alt="Indigo Carpet Reel" loading="lazy" decoding="async" class="w-full h-full object-cover animate-reel-zoom group-hover:brightness-95 transition" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
           
           <!-- Top Reel Header -->
@@ -648,7 +663,7 @@
       <!-- Reel 2: Mulmul Dohar Video -->
       <div onclick="openReelModal(1)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-heritage-border group flex flex-col justify-between card-3d">
         <div class="relative aspect-[9/14] bg-heritage-obsidian overflow-hidden">
-          <img src="assets/images/mulmul-dohar-bedsheet.jpg" alt="Mulmul Dohar Reel" class="w-full h-full object-cover animate-reel-zoom group-hover:brightness-95 transition" />
+          <img src="assets/images/mulmul-dohar-bedsheet.jpg" alt="Mulmul Dohar Reel" loading="lazy" decoding="async" class="w-full h-full object-cover animate-reel-zoom group-hover:brightness-95 transition" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
           
           <div class="absolute top-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-bold">
@@ -693,7 +708,7 @@
       <!-- Reel 3: Tufted Cushion Video -->
       <div onclick="openReelModal(2)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-heritage-border group flex flex-col justify-between card-3d">
         <div class="relative aspect-[9/14] bg-heritage-obsidian overflow-hidden">
-          <img src="assets/images/cushion-tufted-embroidery.jpg" alt="Cushions Reel" class="w-full h-full object-cover animate-reel-zoom group-hover:brightness-95 transition" />
+          <img src="assets/images/cushion-tufted-embroidery.jpg" alt="Cushions Reel" loading="lazy" decoding="async" class="w-full h-full object-cover animate-reel-zoom group-hover:brightness-95 transition" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
           
           <div class="absolute top-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-bold">
@@ -738,7 +753,7 @@
       <!-- Reel 4: Wedding Gifting Box Video -->
       <div onclick="openReelModal(3)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-heritage-border group flex flex-col justify-between card-3d">
         <div class="relative aspect-[9/14] bg-heritage-obsidian overflow-hidden">
-          <img src="assets/images/luxury-gifting-box.jpg" alt="Wedding Hamper Reel" class="w-full h-full object-cover animate-reel-zoom group-hover:brightness-95 transition" />
+          <img src="assets/images/luxury-gifting-box.jpg" alt="Wedding Hamper Reel" loading="lazy" decoding="async" class="w-full h-full object-cover animate-reel-zoom group-hover:brightness-95 transition" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
           
           <div class="absolute top-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-bold">
@@ -987,7 +1002,7 @@
         <!-- Right: Hamper Image -->
         <div class="lg:col-span-6 relative">
           <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-amber-500/30">
-            <img src="assets/images/luxury-gifting-box.jpg" alt="Heritage Handicrafts Bespoke Gifting Box" class="w-full h-full object-cover" />
+            <img src="assets/images/luxury-gifting-box.jpg" alt="Heritage Handicrafts Bespoke Gifting Box" loading="lazy" decoding="async" class="w-full h-full object-cover" />
             <div class="absolute bottom-3 left-3 right-3 bg-heritage-obsidian/90 backdrop-blur-md p-3.5 rounded-xl border border-amber-400/20 text-xs">
               <p class="font-cinzel text-amber-300 font-bold text-sm">Heritage Royal Hamper (Signature Edition)</p>
               <p class="text-gray-300 text-[11px] mt-0.5">Includes 1x Reversible Mulmul Dohar + 1x Hand-Hammered Brass Candle + Custom Ribbon Tag.</p>
@@ -1940,7 +1955,7 @@
           <div>
             <!-- Clickable Product Image triggers Multi-Photo Modal -->
             <div class="relative overflow-hidden aspect-[4/3] bg-heritage-sand cursor-pointer" onclick="openProductModal('${product.id}')">
-              <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img src="${product.image}" alt="${product.name}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               
               <span class="absolute top-2.5 left-2.5 bg-heritage-obsidian/90 text-amber-300 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full backdrop-blur-sm border border-amber-400/20 shadow">
                 ${product.badge}
@@ -2457,6 +2472,34 @@
     });
 
     // -------------------------------------------------------------
+    // ROBUST SMOOTH SCROLLING CONTROLLER (MOBILE & DESKTOP)
+    // -------------------------------------------------------------
+    function scrollToSection(targetId, e) {
+      if (e && e.preventDefault) {
+        e.preventDefault();
+      }
+      const el = document.getElementById(targetId);
+      if (!el) return false;
+
+      const nav = document.querySelector('nav');
+      const navHeight = nav ? nav.offsetHeight : 64;
+      const targetY = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - navHeight);
+
+      window.scrollTo({
+        top: targetY,
+        behavior: 'smooth'
+      });
+
+      try {
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, null, '#' + targetId);
+        }
+      } catch (err) {}
+
+      return false;
+    }
+
+    // -------------------------------------------------------------
     // EXPANDABLE SHOWCASE PANEL CONTROLS
     // -------------------------------------------------------------
     let isShowcaseOpen = false;
@@ -2501,19 +2544,13 @@
       toggleHeaderShowcase(false);
       
       if (category === 'gifting') {
-        const giftSection = document.getElementById('gifting');
-        if (giftSection) {
-          giftSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        scrollToSection('gifting');
         return;
       }
 
       // Filter and scroll to catalogue
       filterCategory(category);
-      const catSection = document.getElementById('catalogue');
-      if (catSection) {
-        catSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      scrollToSection('catalogue');
     }
 
     // -------------------------------------------------------------
@@ -2554,7 +2591,7 @@
     }
 
     // -------------------------------------------------------------
-    // ROYAL HANDICRAFT GOLDEN SILK & STARDUST CANVAS
+    // ROYAL HANDICRAFT GOLDEN SILK & STARDUST CANVAS (60FPS OPTIMIZED)
     // -------------------------------------------------------------
     function initHeroLoomCanvas() {
       const canvas = document.getElementById('heroLoomCanvas');
@@ -2583,20 +2620,21 @@
         if (!canvas.parentElement) return;
         width = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
         height = canvas.height = canvas.parentElement.offsetHeight || window.innerHeight;
-      });
+      }, { passive: true });
 
-      // Craft particles representing golden zari threads & stardust
-      const particleCount = 38;
+      // Mobile throttle: reduce particles on phones for max battery & zero scroll jank
+      const isMobile = window.innerWidth < 768;
+      const particleCount = isMobile ? 16 : 32;
       const particles = [];
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 1.8 + 0.6,
-          speedY: -(Math.random() * 0.45 + 0.15),
-          speedX: (Math.random() - 0.5) * 0.3,
-          alpha: Math.random() * 0.6 + 0.2,
+          radius: Math.random() * 1.6 + 0.6,
+          speedY: -(Math.random() * 0.4 + 0.15),
+          speedX: (Math.random() - 0.5) * 0.25,
+          alpha: Math.random() * 0.5 + 0.25,
           pulseSpeed: Math.random() * 0.02 + 0.01,
           angle: Math.random() * Math.PI * 2
         });
@@ -2626,12 +2664,15 @@
           if (p.x < -10) p.x = width + 10;
           if (p.x > width + 10) p.x = -10;
 
-          // Golden glow circle
+          // Lightweight concentric soft glow without expensive GPU shadowBlur
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(197, 155, 39, ${Math.max(0.04, currentAlpha * 0.2)})`;
+          ctx.fill();
+
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(232, 202, 101, ${Math.max(0.1, currentAlpha)})`;
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = 'rgba(197, 155, 39, 0.7)';
+          ctx.fillStyle = `rgba(246, 232, 185, ${Math.max(0.12, currentAlpha)})`;
           ctx.fill();
         }
 
@@ -2678,9 +2719,19 @@
     // INITIALIZATION
     document.addEventListener('DOMContentLoaded', () => {
       renderProducts(productsData);
-      lucide.createIcons();
+      if (window.lucide) {
+        lucide.createIcons();
+      }
       setupScrollObserver();
       initHeroLoomCanvas();
+
+      // If page was loaded with a section hash, scroll to it smoothly
+      if (window.location.hash) {
+        const targetId = window.location.hash.substring(1);
+        setTimeout(() => {
+          scrollToSection(targetId);
+        }, 100);
+      }
     });
   </script>
 </body>
